@@ -1,7 +1,9 @@
 <template>
   <div class="hello">
     <ul>
-      <li class="inline" v-for="l in letters"><button @click="changeQuery(l)">{{ l }}</button></li>
+      <li class="inline" v-for="l in letters">
+        <LetterButton :key="l" :letter="l" @click="changeQuery(l)">{{l}}</LetterButton>
+      </li>
     </ul>
     <h1>Your list of {{ query }} words</h1>
     <button @click="reverse = !reverse">{{ reverse ? 'Original' : 'Reverse' }}</button>
@@ -13,8 +15,10 @@
 </template>
 
 <script type="text/babel">
+  import LetterButton from './LetterButton.vue'
 export default {
   name: 'WordList',
+  components: { LetterButton },
   data () {
     return {
       words: [],
