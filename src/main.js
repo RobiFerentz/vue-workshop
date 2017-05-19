@@ -4,6 +4,7 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import store from './store'
+import './directives/active'
 
 import './assets/favicon.ico'
 Vue.config.productionTip = false

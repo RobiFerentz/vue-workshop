@@ -23,4 +23,7 @@
     font-weight: 600;
     outline: none;
   }
+  button.active {
+    border: 1px solid red;
+  }
 </style>

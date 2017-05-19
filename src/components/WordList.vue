@@ -2,7 +2,7 @@
   <div class="hello">
     <ul>
       <li class="inline" v-for="l in letters">
-        <LetterButton :key="l" :letter="l" @click="changeQuery(l)">{{l}}</LetterButton>
+        <LetterButton v-active="l === query" :key="l" @click="changeQuery(l)">{{l}}</LetterButton>
       </li>
     </ul>
     <h1>Your list of {{ query }} words</h1>
