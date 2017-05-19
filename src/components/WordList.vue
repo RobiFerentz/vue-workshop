@@ -8,7 +8,9 @@
     <h1>Your list of {{ query }} words</h1>
     <button @click="reverse = !reverse">{{ reverse ? 'Original' : 'Reverse' }}</button>
     <ul>
-      <li v-for="word in reverseWords">{{ word.word }}</li>
+      <li v-for="word in reverseWords">
+        <router-link :to="{ name: 'word-def', params: { word: word.word }}">{{ word.word }}</router-link>
+      </li>
     </ul>
 
   </div>
@@ -21,7 +23,6 @@ export default {
   components: { LetterButton },
   data () {
     return {
-      words: [],
       query: 'V',
       letters: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split(''),
       reverse: false
@@ -30,24 +31,16 @@ export default {
   methods: {
     changeQuery(l) {
       this.query = l
-      this.words = []
       this.fetchWordList()
     },
     fetchWordList() {
-      let apiKey = 'adc94b8adae78f1af5008067f2b03e31d8e17cfb54b0fef16'
-      let basePath = 'http://api.wordnik.com:80/v4/'
-      let {query} = this
-      let params = `?caseSensitive=false&minCorpusCount=5&maxCorpusCount=-1&minDictionaryCount=1&maxDictionaryCount=-1&minLength=2&maxLength=-1&skip=0&limit=20&api_key=${apiKey}`
-      let url = `${basePath}words.json/search/${query}${params}`
-      fetch(url)
-        .then(response=>response.json())
-        .then(json=>{
-          json.searchResults.shift()
-          this.words = json.searchResults
-        })
+      this.$store.dispatch('fetchWords', this.query)
     }
   },
   computed: {
+    words(){
+      return (this.$store && this.$store.state.words) || []
+    },
     reverseWords() {
       return this.reverse ? Array.from(this.words).reverse() : this.words
     }
